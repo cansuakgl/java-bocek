@@ -1,0 +1,123 @@
+package bocekPackage;
+
+import java.io.File;
+import java.util.Scanner;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+	String bocekLines[] = new String[3];
+	String araziLines = "";
+	
+	try {
+	File araziFile = new File("C:\\Users\\user\\Desktop\\test_arazi.txt");
+	File bocekFile = new File("C:\\Users\\user\\Desktop\\bocek.txt");
+		
+	Scanner scAraziFile = new Scanner(araziFile);
+	Scanner scBocekFile = new Scanner(bocekFile);
+	
+	while(scBocekFile.hasNextLine()){
+		for(int i=0; i<3; i++)
+		bocekLines[i] = scBocekFile.nextLine();
+	}
+	
+	for(int k=0; k<3; k++){
+	bocekLines[k] = bocekLines[k].replaceAll("\\s","");
+	}
+	
+	while(scAraziFile.hasNextLine()) {
+	araziLines += scAraziFile.nextLine();	
+	}
+	
+	araziLines = araziLines.replaceAll("\\s","");
+	
+	// A, B ve C ile bocek deseninin farklı bolumlerini isimlendiridim. 
+	//A, B ve C desenlerinin arazi içindeki indexlerini tutuyorlar
+	
+    int Aindexleri[] = new int[20];
+    int Bindexleri[] = new int[20];
+    int Cindexleri[] = new int[20];
+      
+    int indexDevam = 0;
+    
+    for(int i=0; i<20; i++){
+    	Aindexleri[i] = araziLines.indexOf(bocekLines[0], indexDevam);
+    	if (Aindexleri[i] == -1) {
+            break;
+         }
+    	indexDevam = Aindexleri[i] + 1;
+    }	
+    
+    indexDevam = 0;
+   
+    for(int i=0; i<20; i++){
+    	Bindexleri[i] = araziLines.indexOf(bocekLines[1], indexDevam);
+    	if (Bindexleri[i] == -1) {
+            break;
+        }
+    	indexDevam = Bindexleri[i] + 1;
+    }	
+    
+    indexDevam = 0;
+    
+    for(int i=0; i<20; i++){
+    	Cindexleri[i] = araziLines.indexOf(bocekLines[2], indexDevam);
+    	if (Cindexleri[i] == -1) {
+    		
+            break;
+        }
+    	indexDevam = Cindexleri[i] + 1;
+    }
+    
+    ArrayList<Integer> aArray = new ArrayList<Integer>();
+	ArrayList<Integer> bArray= new ArrayList<Integer>();
+	ArrayList<Integer> cArray = new ArrayList<Integer>();
+   
+	for(int i=0; i<20; i++) {
+		aArray.add(Aindexleri[i]);	
+		if(Aindexleri[i] == -1 )
+			continue;
+	}
+	
+	for(int i=0; i<20; i++) {
+		bArray.add(Bindexleri[i]);
+		if(Bindexleri[i] == -1 )
+			continue;
+	}
+	
+	for(int i=0; i<20; i++) {
+		cArray.add(Cindexleri[i]);
+		if(Cindexleri[i] == -1 )
+			continue;
+	}
+    
+	int bocekSayisi = 0;
+	
+     for(int i=0; i<aArray.size(); i++) {
+    	 for(int j=0; j<bArray.size(); j++) {
+    		 for(int k=0; k<cArray.size(); k++) {
+    			 if( (aArray.get(i) < bArray.get(j)) && (bArray.get(j) < cArray.get(i)) ) {
+    				 aArray.remove(i);
+    				 bArray.remove(j);
+    				 cArray.remove(k);
+    				 bocekSayisi++;
+    			 }
+    			 
+    		 }
+    	 }
+    	 
+     }
+     
+    System.out.println(" bocek sayisi = " + bocekSayisi);
+    
+	}
+	catch (IOException e){
+        System.out.println("Hata");
+        e.printStackTrace();
+    }	
+		
+	}
+}
